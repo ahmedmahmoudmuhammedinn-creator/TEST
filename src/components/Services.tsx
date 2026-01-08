@@ -152,7 +152,7 @@ const Services: React.FC<ServicesProps> = ({ onAskAI }) => {
               <div className="relative z-10 flex flex-col h-full transition-all duration-300 group-hover:blur-sm group-hover:opacity-40">
                 {/* Parallax Wrapper: Controlled by JS */}
                 <div 
-                  ref={el => iconRefs.current[index] = el}
+                  ref={(el) => { iconRefs.current[index] = el; }}
                   className="mb-6 inline-block relative z-20 will-change-transform"
                 >
                     {/* Animation Wrapper: CSS Float Animation */}
