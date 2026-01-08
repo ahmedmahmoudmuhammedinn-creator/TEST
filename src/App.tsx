@@ -1,11 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Hero from './components/Hero';
-import Services from './components/Services';
-import PartnerBar from './components/PartnerBar';
-import AIChatBot, { AIChatBotHandle } from './components/AIChatBot';
-import Footer from './components/Footer';
-import StatsChart from './components/StatsChart';
-import { Menu, X, Code2, Phone, Mail, MapPin, LogIn, ChevronRight, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect, useRef } from "react";
+
+import Hero from "./components/Hero";
+import Services from "./components/Services";
+import PartnerBar from "./components/PartnerBar";
+import AIChatBot, { AIChatBotHandle } from "./components/AIChatBot";
+import Footer from "./components/Footer";
+import StatsChart from "./components/StatsChart";
+
+import {
+  Menu,
+  X,
+  Code2,
+  Phone,
+  Mail,
+  MapPin,
+  LogIn,
+  ChevronRight,
+  ArrowRight
+} from "lucide-react";
+
 
 const App: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
