@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 const partners = [
@@ -13,33 +14,38 @@ const partners = [
 
 const Partners: React.FC = () => {
   return (
-    <section className="py-24 bg-brand-black border-y border-brand-border/30 relative overflow-hidden">
-      <div className="container mx-auto px-6 mb-12 text-center">
-        <span className="text-[10px] font-black uppercase tracking-[0.6em] text-brand-primary/50">
-          Trusted by Industry Leaders & Pioneers
-        </span>
+    <section className="py-24 bg-black border-y border-white/5 relative overflow-hidden">
+      <div className="container mx-auto px-6 mb-16 text-center">
+        <div className="flex items-center justify-center gap-4">
+          <div className="h-px w-8 bg-brand-primary/20"></div>
+          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-brand-primary/40 translate-x-[0.4em]">
+            Trusted by Industry Leaders & Pioneers
+          </span>
+          <div className="h-px w-8 bg-brand-primary/20"></div>
+        </div>
       </div>
 
       <div className="flex relative overflow-hidden group">
         <div className="flex animate-marquee whitespace-nowrap py-4 items-center">
-          {/* Double map for seamless loop */}
-          {[...partners, ...partners].map((partner, index) => (
+          {/* Loop x3 for smooth continuous scroll */}
+          {[...partners, ...partners, ...partners].map((partner, index) => (
             <div 
               key={`${partner.name}-${index}`} 
               className="inline-flex items-center justify-center mx-12 md:mx-20"
             >
               <img 
                 src={partner.logo} 
-                alt={`${partner.name} logo`}
-                className="h-7 md:h-9 w-auto object-contain logo-normalize"
+                alt={`${partner.name} infrastructure partner`}
+                className="h-8 md:h-10 w-auto object-contain logo-normalize select-none pointer-events-none"
+                loading="lazy"
               />
             </div>
           ))}
         </div>
 
-        {/* Gradient edge fades */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-brand-black to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-brand-black to-transparent z-10 pointer-events-none"></div>
+        {/* Ambient fade masks */}
+        <div className="absolute left-0 top-0 bottom-0 w-48 bg-gradient-to-r from-black via-black/80 to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-48 bg-gradient-to-l from-black via-black/80 to-transparent z-10 pointer-events-none"></div>
       </div>
     </section>
   );
