@@ -12,53 +12,71 @@ const data = [
 
 const StatsChart: React.FC = () => {
   return (
-    <div className="w-full h-[300px] md:h-[400px] bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
-      <h3 className="text-lg font-semibold text-slate-200 mb-6 flex items-center gap-2">
-        <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
-        Client Efficiency Growth
-      </h3>
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="w-full h-[400px] md:h-[500px] glass-card p-10 rounded-[2rem]">
+      <div className="flex items-center justify-between mb-10">
+        <div>
+          <h3 className="text-xl font-bold text-white mb-2">Performance Metrics</h3>
+          <p className="text-xs text-slate-500 uppercase tracking-widest">Real-time infrastructure health</p>
+        </div>
+        <div className="flex gap-6">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-brand-primary"></div>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Efficiency</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-emerald-900"></div>
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Security</span>
+          </div>
+        </div>
+      </div>
+      <ResponsiveContainer width="100%" height="80%">
         <AreaChart
           data={data}
-          margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 0,
-          }}
+          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
         >
           <defs>
             <linearGradient id="colorEfficiency" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.3}/>
-              <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
+              <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
+              <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
             </linearGradient>
             <linearGradient id="colorSecurity" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-              <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+              <stop offset="5%" stopColor="#064e3b" stopOpacity={0.5}/>
+              <stop offset="95%" stopColor="#064e3b" stopOpacity={0}/>
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
-          <XAxis dataKey="name" stroke="#64748b" tick={{fill: '#64748b'}} />
-          <YAxis stroke="#64748b" tick={{fill: '#64748b'}} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#10b981" vertical={false} opacity={0.05} />
+          <XAxis 
+            dataKey="name" 
+            stroke="#10b981" 
+            tick={{fill: '#475569', fontSize: 10, fontWeight: 700}} 
+            axisLine={false}
+            tickLine={false}
+          />
+          <YAxis 
+            stroke="#10b981" 
+            tick={{fill: '#475569', fontSize: 10, fontWeight: 700}} 
+            axisLine={false}
+            tickLine={false}
+          />
           <Tooltip 
-            contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', color: '#f8fafc' }}
-            itemStyle={{ color: '#f8fafc' }}
+            contentStyle={{ backgroundColor: '#0a0a0a', border: '1px solid rgba(16,185,129,0.2)', borderRadius: '12px' }}
+            itemStyle={{ color: '#10b981', fontWeight: 800, fontSize: '12px' }}
           />
           <Area 
             type="monotone" 
             dataKey="efficiency" 
-            stroke="#22d3ee" 
+            stroke="#10b981" 
+            strokeWidth={3}
             fillOpacity={1} 
             fill="url(#colorEfficiency)" 
-            name="Operational Efficiency"
           />
            <Area 
             type="monotone" 
             dataKey="security" 
-            stroke="#3b82f6" 
+            stroke="#064e3b" 
+            strokeWidth={2}
             fillOpacity={1} 
             fill="url(#colorSecurity)" 
-            name="Security Score"
           />
         </AreaChart>
       </ResponsiveContainer>
