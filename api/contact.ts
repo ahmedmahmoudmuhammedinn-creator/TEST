@@ -1,7 +1,5 @@
-
 import { Resend } from 'resend';
 
-// Initialize Resend with your API Key from environment variables
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const config = {
@@ -14,40 +12,41 @@ export default async function handler(req: Request) {
   }
 
   try {
-    const { name, email, company, message, honeypot } = await req.json();
+    const body = await req.json();
+    const { name, email, phone, company, message, honeypot } = body;
 
-    // Basic SPAM prevention: Honeypot check
+    // Honeypot check for bots
     if (honeypot) {
       return new Response(JSON.stringify({ success: true }), { status: 200 });
     }
 
     if (!name || !email || !message) {
-      return new Response(JSON.stringify({ error: 'Missing required fields' }), { status: 400 });
+      return new Response(JSON.stringify({ error: 'Required fields missing' }), { status: 400 });
     }
 
-    // Send email to both specified addresses
-    const data = await resend.emails.send({
-      from: 'LINCO Leads <onboarding@resend.dev>', // Use your verified domain in production
+    // Send email via Resend
+    const result = await resend.emails.send({
+      from: 'LINCO Lead <onboarding@resend.dev>', // Update to verified domain for prod
       to: ['ahmed.muhammedin@linco.network', 'info@linco.network'],
-      subject: `New Lead: ${name} from ${company || 'Unknown Co.'}`,
+      replyTo: email,
+      subject: `[INQUIRY] ${name} | ${company || 'General'}`,
       html: `
-        <div style="font-family: sans-serif; padding: 20px; color: #333;">
-          <h2 style="color: #10b981;">New Inquiry from LINCO Website</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Company:</strong> ${company || 'N/A'}</p>
-          <hr style="border: 0; border-top: 1px solid #eee;" />
-          <p><strong>Message:</strong></p>
-          <p style="white-space: pre-wrap;">${message}</p>
+        <div style="font-family: sans-serif; background: #f9f9f9; padding: 40px; color: #111;">
+          <div style="max-width: 600px; margin: auto; background: white; border: 1px solid #eee; border-radius: 8px; padding: 30px;">
+            <h2 style="color: #10b981; margin-top: 0;">New Project Inquiry</h2>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Company:</strong> ${company || 'Not Specified'}</p>
+            <p><strong>Phone:</strong> ${phone || 'Not Specified'}</p>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;" />
+            <p style="white-space: pre-wrap; line-height: 1.6;">${message}</p>
+          </div>
         </div>
       `,
     });
 
-    return new Response(JSON.stringify(data), { 
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
-  } catch (error) {
+    return new Response(JSON.stringify(result), { status: 200 });
+  } catch (error: any) {
     return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
 }
