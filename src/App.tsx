@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
-import Partners from "./components/Partners";
+import PartnerBar from "./components/PartnerBar";
 import ContactForm from "./components/ContactForm";
 import PricingPage from "./pages/Pricing";
 import AIChatBot, { AIChatBotHandle } from "./components/AIChatBot";
 import Footer from "./components/Footer";
 import StatsChart from "./components/StatsChart";
-import { Menu, X, Terminal, LogIn } from "lucide-react";
+import { Menu, X, Terminal } from "lucide-react";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -20,7 +20,7 @@ const Navigation = ({ isScrolled, mobileMenuOpen, setMobileMenuOpen }: any) => (
   <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'py-4' : 'py-8'}`}>
     <div className="container mx-auto px-6 flex justify-center">
       <div className={`flex items-center justify-between w-full max-w-6xl glass-card rounded-full px-8 py-2.5 transition-all ${
-        isScrolled ? 'border-brand-primary/30' : 'border-transparent'
+        isScrolled ? 'border-brand-primary/30 shadow-[0_8px_32px_rgba(0,0,0,0.5)]' : 'border-transparent'
       }`}>
         <Link to="/" className="flex items-center gap-3 group">
           <div className="w-10 h-10 bg-brand-primary rounded-xl flex items-center justify-center text-black font-black group-hover:scale-105 transition-transform">
@@ -43,7 +43,7 @@ const Navigation = ({ isScrolled, mobileMenuOpen, setMobileMenuOpen }: any) => (
         </div>
 
         <div className="flex items-center gap-4">
-          <Link to="/pricing" className="bg-brand-primary text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-brand-hover transition-colors">
+          <Link to="/pricing" className="bg-brand-primary text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-brand-hover transition-colors shadow-lg shadow-brand-primary/20">
             Deploy Now
           </Link>
           <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -80,7 +80,7 @@ const App: React.FC = () => {
           <Route path="/" element={
             <main>
               <Hero />
-              <Partners />
+              <PartnerBar />
               <section id="services"><Services onAskAI={handleAskAI} /></section>
               <section className="py-40 bg-brand-black/50">
                 <div className="container mx-auto px-6">
@@ -88,11 +88,11 @@ const App: React.FC = () => {
                     <div>
                       <h2 className="text-6xl md:text-8xl font-black text-white mb-10 tracking-tighter leading-[0.85]">Engineered for <br/><span className="text-brand-primary">Growth.</span></h2>
                       <div className="grid grid-cols-2 gap-6 mt-12">
-                        <div className="glass-card p-8 rounded-3xl">
+                        <div className="glass-card p-8 rounded-3xl border-brand-primary/10">
                           <div className="text-5xl font-black text-brand-primary mb-2 tracking-tighter">99.9%</div>
                           <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Global Uptime</div>
                         </div>
-                        <div className="glass-card p-8 rounded-3xl">
+                        <div className="glass-card p-8 rounded-3xl border-brand-primary/10">
                           <div className="text-5xl font-black text-brand-primary mb-2 tracking-tighter">&lt;8ms</div>
                           <div className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Latency</div>
                         </div>
