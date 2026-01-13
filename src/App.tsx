@@ -1,10 +1,8 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
-import PartnerBar from "./components/PartnerBar";
-import PartnerGrid from "./components/PartnerGrid";
+import Partners from "./components/Partners";
 import ContactForm from "./components/ContactForm";
 import PricingPage from "./pages/Pricing";
 import AIChatBot, { AIChatBotHandle } from "./components/AIChatBot";
@@ -82,7 +80,8 @@ const App: React.FC = () => {
           <Route path="/" element={
             <main>
               <Hero />
-              <PartnerBar />
+              {/* Replaced PartnerBar/Grid with the new unified Partners component */}
+              <Partners />
               <section id="services"><Services onAskAI={handleAskAI} /></section>
               <section className="py-40 bg-brand-black/50">
                 <div className="container mx-auto px-6">
@@ -104,7 +103,6 @@ const App: React.FC = () => {
                   </div>
                 </div>
               </section>
-              <PartnerGrid />
               <section id="contact" className="py-40 container mx-auto px-6 max-w-6xl">
                 <ContactForm />
               </section>
