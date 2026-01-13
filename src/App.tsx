@@ -5,7 +5,7 @@ import Services from "./components/Services";
 import Partners from "./components/Partners";
 import ContactForm from "./components/ContactForm";
 import PricingPage from "./pages/Pricing";
-import AIChatBot, { AIChatBotHandle } from "./components/AIChatBot";
+import LincoChat, { LincoChatHandle } from "./components/LincoChat";
 import Footer from "./components/Footer";
 import StatsChart from "./components/StatsChart";
 import { Menu, X, Terminal } from "lucide-react";
@@ -58,7 +58,7 @@ const Navigation = ({ isScrolled, mobileMenuOpen, setMobileMenuOpen }: any) => (
 const App: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const chatRef = useRef<AIChatBotHandle>(null);
+  const chatRef = useRef<LincoChatHandle>(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -80,7 +80,6 @@ const App: React.FC = () => {
           <Route path="/" element={
             <main>
               <Hero />
-              {/* Premium Partners Grid Section */}
               <Partners />
               
               <section id="services"><Services onAskAI={handleAskAI} /></section>
@@ -115,7 +114,7 @@ const App: React.FC = () => {
         </Routes>
 
         <Footer />
-        <AIChatBot ref={chatRef} />
+        <LincoChat ref={chatRef} />
       </div>
     </BrowserRouter>
   );
