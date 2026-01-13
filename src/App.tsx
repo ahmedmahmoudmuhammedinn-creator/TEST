@@ -40,6 +40,15 @@ const Navigation = ({ isScrolled, mobileMenuOpen, setMobileMenuOpen }: any) => (
             </Link>
           ))}
           <a href="#services" className="px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest hover:text-brand-primary transition-colors">Services</a>
+          {/* New Business Email Link */}
+          <a 
+            href="https://mail.linco.network" 
+            target="_blank" 
+            rel="noreferrer"
+            className="px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest hover:text-brand-primary transition-colors"
+          >
+            Business Email
+          </a>
         </div>
 
         <div className="flex items-center gap-4">
