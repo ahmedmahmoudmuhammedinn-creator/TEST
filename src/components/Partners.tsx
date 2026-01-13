@@ -1,71 +1,126 @@
 import React, { useState } from 'react';
-import { ShieldCheck, ExternalLink } from 'lucide-react';
+import { ShieldCheck, ExternalLink, Cpu } from 'lucide-react';
 
 interface Partner {
   name: string;
-  logo: string;
-  url: string;
-  invertOnDark?: boolean; // Forces logo to white/light for dark backgrounds
+  src: string;
+  href: string;
+  invertOnDark?: boolean;
 }
 
+// Strategic selection of high-stability CDN URLs
 const partners: Partner[] = [
-  { name: 'Kaspersky', logo: '/partners/kaspersky.svg', url: 'https://www.kaspersky.com', invertOnDark: true },
-  { name: 'Sophos', logo: '/partners/sophos.svg', url: 'https://www.sophos.com', invertOnDark: true },
-  { name: 'Fortinet', logo: '/partners/fortinet.svg', url: 'https://www.fortinet.com', invertOnDark: true },
-  { name: 'Bitdefender', logo: '/partners/bitdefender.svg', url: 'https://www.bitdefender.com' },
-  { name: 'AWS', logo: '/partners/aws.svg', url: 'https://aws.amazon.com', invertOnDark: true },
-  { name: 'Microsoft', logo: '/partners/microsoft.svg', url: 'https://www.microsoft.com' },
-  { name: 'Azure', logo: '/partners/azure.svg', url: 'https://azure.microsoft.com' },
-  { name: 'Google Cloud', logo: '/partners/google-cloud.svg', url: 'https://cloud.google.com' },
-  { name: 'Cloudflare', logo: '/partners/cloudflare.svg', url: 'https://www.cloudflare.com', invertOnDark: true },
-  { name: 'Datadog', logo: '/partners/datadog.svg', url: 'https://www.datadoghq.com', invertOnDark: true },
-  { name: 'HashiCorp', logo: '/partners/hashicorp.svg', url: 'https://www.hashicorp.com', invertOnDark: true },
+  { 
+    name: 'Kaspersky', 
+    src: 'https://cdn.simpleicons.org/kaspersky/white', 
+    href: 'https://www.kaspersky.com' 
+  },
+  { 
+    name: 'Sophos', 
+    src: 'https://www.vectorlogo.zone/logos/sophos/sophos-ar21.svg', 
+    href: 'https://www.sophos.com',
+    invertOnDark: true
+  },
+  { 
+    name: 'Fortinet', 
+    src: 'https://www.vectorlogo.zone/logos/fortinet/fortinet-ar21.svg', 
+    href: 'https://www.fortinet.com',
+    invertOnDark: true 
+  },
+  { 
+    name: 'Bitdefender', 
+    src: 'https://cdn.simpleicons.org/bitdefender/white', 
+    href: 'https://www.bitdefender.com' 
+  },
+  { 
+    name: 'AWS', 
+    src: 'https://cdn.simpleicons.org/amazonwebservices/white', 
+    href: 'https://aws.amazon.com' 
+  },
+  { 
+    name: 'Microsoft', 
+    src: 'https://cdn.simpleicons.org/microsoft/white', 
+    href: 'https://www.microsoft.com' 
+  },
+  { 
+    name: 'Azure', 
+    src: 'https://cdn.simpleicons.org/microsoftazure/white', 
+    href: 'https://azure.microsoft.com' 
+  },
+  { 
+    name: 'Google Cloud', 
+    src: 'https://cdn.simpleicons.org/googlecloud/white', 
+    href: 'https://cloud.google.com' 
+  },
+  { 
+    name: 'Cloudflare', 
+    src: 'https://cdn.simpleicons.org/cloudflare/white', 
+    href: 'https://www.cloudflare.com' 
+  },
+  { 
+    name: 'Datadog', 
+    src: 'https://cdn.simpleicons.org/datadog/white', 
+    href: 'https://www.datadoghq.com' 
+  },
+  { 
+    name: 'HashiCorp', 
+    src: 'https://cdn.simpleicons.org/hashicorp/white', 
+    href: 'https://www.hashicorp.com' 
+  },
+  { 
+    name: 'GitHub', 
+    src: 'https://cdn.simpleicons.org/github/white', 
+    href: 'https://github.com' 
+  }
 ];
 
 const PartnerCard: React.FC<{ partner: Partner }> = ({ partner }) => {
-  const [imgError, setImgError] = useState(false);
+  const [error, setError] = useState(false);
 
   return (
     <a
-      href={partner.url}
+      href={partner.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="group glass-card p-8 rounded-[2rem] flex flex-col items-center justify-center min-h-[140px] border-white/5 hover:border-brand-primary/40 transition-all duration-500 relative overflow-hidden"
+      className="group relative flex h-32 flex-col items-center justify-center overflow-hidden rounded-[2.5rem] border border-white/5 bg-black/40 p-8 transition-all duration-500 hover:border-brand-primary/40 hover:bg-brand-primary/[0.02]"
     >
-      {/* Subtle Glow Background */}
-      <div className="absolute inset-0 bg-brand-primary/0 group-hover:bg-brand-primary/[0.02] transition-colors duration-500" />
-      
-      <div className="relative z-10 w-full flex items-center justify-center">
-        {!imgError ? (
+      {/* Background Hover Glow */}
+      <div className="absolute inset-0 z-0 bg-brand-primary/0 opacity-0 blur-2xl transition-all duration-500 group-hover:bg-brand-primary/10 group-hover:opacity-100" />
+
+      <div className="relative z-10 flex w-full items-center justify-center">
+        {!error ? (
           <img
-            src={partner.logo}
-            alt={partner.name}
-            onError={() => {
-              console.warn(`[LINCO] Missing logo for ${partner.name} at path: ${partner.logo}`);
-              setImgError(true);
-            }}
-            className={`h-8 md:h-10 w-auto object-contain transition-all duration-700 select-none
-              ${partner.invertOnDark ? 'brightness-0 invert group-hover:invert-0 group-hover:brightness-100' : ''}
-              grayscale group-hover:grayscale-0 opacity-40 group-hover:opacity-100 group-hover:scale-110
-            `}
+            src={partner.src}
+            alt={`${partner.name} logo`}
             loading="lazy"
+            onError={() => {
+              console.warn(`[LINCO] Partner logo failed to load: ${partner.name} at ${partner.src}`);
+              setError(true);
+            }}
+            className={`h-7 w-auto object-contain transition-all duration-700
+              ${partner.invertOnDark ? 'brightness-0 invert group-hover:invert-0 group-hover:brightness-100' : ''}
+              grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110
+            `}
           />
         ) : (
-          /* High-quality Text Badge Fallback */
-          <div className="flex flex-col items-center gap-2">
-            <span className="text-[11px] font-black text-white uppercase tracking-widest px-4 py-2 bg-white/5 rounded-lg border border-white/10 group-hover:border-brand-primary/30 transition-colors">
-              {partner.name}
-            </span>
-            <span className="text-[8px] font-bold text-brand-primary/40 uppercase tracking-tighter">
-              Verified Partner
+          /* Premium Fallback Badge */
+          <div className="flex flex-col items-center gap-1">
+            <div className="flex items-center gap-2 rounded-lg bg-white/5 border border-white/10 px-4 py-2 transition-all group-hover:border-brand-primary/30 group-hover:bg-brand-primary/5">
+              <Cpu size={12} className="text-brand-primary/60 group-hover:text-brand-primary" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-white/80 group-hover:text-white">
+                {partner.name}
+              </span>
+            </div>
+            <span className="text-[8px] font-bold uppercase tracking-tighter text-brand-primary/30 group-hover:text-brand-primary/60">
+              Verified Node
             </span>
           </div>
         )}
       </div>
 
-      {/* Hover Icon */}
-      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0 duration-500">
-        <ExternalLink size={12} className="text-brand-primary/40" />
+      {/* External Indicator */}
+      <div className="absolute right-4 top-4 translate-x-2 opacity-0 transition-all duration-500 group-hover:translate-x-0 group-hover:opacity-100">
+        <ExternalLink size={10} className="text-brand-primary/40" />
       </div>
     </a>
   );
@@ -73,38 +128,41 @@ const PartnerCard: React.FC<{ partner: Partner }> = ({ partner }) => {
 
 const Partners: React.FC = () => {
   return (
-    <section className="py-32 container mx-auto px-6 relative overflow-hidden" id="partners">
-      {/* Decorative Blur */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[600px] bg-brand-primary/5 blur-[160px] pointer-events-none rounded-full" />
+    <section className="relative overflow-hidden py-32" id="partners">
+      {/* Structural Decoration */}
+      <div className="absolute left-1/2 top-1/2 -z-10 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-primary/5 blur-[120px] pointer-events-none" />
 
-      {/* Header */}
-      <div className="text-center mb-20 relative z-10">
-        <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-brand-primary/5 border border-brand-primary/20 text-brand-primary text-[10px] font-black uppercase tracking-[0.4em] mb-8 animate-fade-in">
-          <ShieldCheck size={14} className="animate-pulse" />
-          The Infrastructure Standard
+      <div className="container mx-auto px-6">
+        {/* Header Section */}
+        <div className="mb-20 text-center">
+          <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-brand-primary/20 bg-brand-primary/5 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.4em] text-brand-primary animate-fade-in">
+            <ShieldCheck size={14} className="animate-pulse" />
+            Infrastructure Backbone
+          </div>
+          <h2 className="mb-6 text-5xl font-black leading-[0.9] tracking-tighter text-white md:text-7xl lg:text-8xl">
+            Trusted by Industry <br />
+            <span className="text-brand-primary italic">Leaders & Pioneers.</span>
+          </h2>
+          <p className="mx-auto max-w-2xl text-lg font-medium text-slate-500">
+            We architect our delivery pipelines using the world's most resilient 
+            cloud and security providers, ensuring <span className="text-white">zero-compromise</span> deployments.
+          </p>
         </div>
-        <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-6 leading-[0.9]">
-          Trusted by Industry <br /><span className="text-brand-primary italic">Leaders & Pioneers.</span>
-        </h2>
-        <p className="text-slate-500 text-lg max-w-2xl mx-auto font-medium">
-          We integrate with world-class security and cloud platforms to deliver 
-          uncompromising resilience for your critical operations.
-        </p>
-      </div>
 
-      {/* Grid Layout */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 relative z-10">
-        {partners.map((partner) => (
-          <PartnerCard key={partner.name} partner={partner} />
-        ))}
-      </div>
+        {/* The Grid */}
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+          {partners.map((partner) => (
+            <PartnerCard key={partner.name} partner={partner} />
+          ))}
+        </div>
 
-      {/* Compatibility Badge */}
-      <div className="mt-20 flex flex-col items-center gap-6 opacity-30 hover:opacity-100 transition-all duration-700">
-        <div className="h-[1px] w-32 bg-gradient-to-r from-transparent via-brand-primary/50 to-transparent" />
-        <p className="text-[9px] font-black text-slate-500 uppercase tracking-[1em] translate-x-[0.5em]">
-          End-to-End Compatibility Verified
-        </p>
+        {/* Global Verification Footer */}
+        <div className="mt-24 flex flex-col items-center justify-center gap-6 opacity-30 transition-all duration-700 hover:opacity-100">
+          <div className="h-px w-32 bg-gradient-to-r from-transparent via-brand-primary/50 to-transparent" />
+          <p className="text-[9px] font-black uppercase tracking-[1em] text-slate-500 translate-x-[0.5em]">
+            Multi-Region Compliance Verified
+          </p>
+        </div>
       </div>
     </section>
   );
