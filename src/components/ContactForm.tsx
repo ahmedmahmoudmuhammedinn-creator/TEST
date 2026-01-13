@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Send, Loader2, CheckCircle, AlertCircle, User, Mail, Building, Phone } from 'lucide-react';
 
@@ -18,6 +17,7 @@ const ContactForm: React.FC = () => {
     e.preventDefault();
     setErrorMessage('');
     
+    // Check honeypot immediately
     if (formData.honeypot) {
       setStatus('success');
       return;
@@ -32,36 +32,40 @@ const ContactForm: React.FC = () => {
         body: JSON.stringify(formData),
       });
 
+      // Parse JSON even for errors to get the custom message
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || `Error ${response.status}: Failed to send.`);
+        // This will now capture "Provider Error: ..." or "Server configuration error: ..."
+        throw new Error(result.message || `Server responded with ${response.status}`);
       }
 
       setStatus('success');
       setFormData({ name: '', email: '', company: '', phone: '', message: '', honeypot: '' });
     } catch (err: any) {
-      console.error('Form Submit Error:', err);
-      setErrorMessage(err.message || 'Check your internet connection or try again later.');
+      console.error('Contact Form Debug:', err);
+      setErrorMessage(err.message || 'Failed to connect to the server. Please check your internet or try again later.');
       setStatus('error');
     }
   };
 
-  const inputStyles = "w-full bg-black border border-brand-primary/20 rounded-xl py-4 pl-12 pr-4 text-white focus:border-brand-primary outline-none transition-all placeholder:text-slate-600 focus:ring-1 focus:ring-brand-primary/50";
+  const inputStyles = "w-full bg-black/60 border border-brand-primary/20 rounded-xl py-4 pl-12 pr-4 text-white focus:border-brand-primary outline-none transition-all placeholder:text-slate-600 focus:ring-1 focus:ring-brand-primary/50";
 
   if (status === 'success') {
     return (
-      <div className="glass-card p-12 rounded-[2rem] text-center border-brand-primary/40 animate-fade-in shadow-[0_0_50px_rgba(16,185,129,0.1)]">
-        <div className="w-20 h-20 bg-brand-primary/10 rounded-full flex items-center justify-center mx-auto mb-8">
-          <CheckCircle className="w-10 h-10 text-brand-primary" />
+      <div className="glass-card p-12 rounded-[2.5rem] text-center border-brand-primary/40 animate-fade-in shadow-[0_0_60px_rgba(16,185,129,0.1)]">
+        <div className="w-24 h-24 bg-brand-primary/10 rounded-full flex items-center justify-center mx-auto mb-8">
+          <CheckCircle className="w-12 h-12 text-brand-primary" />
         </div>
-        <h3 className="text-3xl font-black text-white mb-4 tracking-tight">Transmission Received</h3>
-        <p className="text-slate-400 mb-10 max-w-sm mx-auto">One of our systems engineers will review your request and contact you shortly.</p>
+        <h3 className="text-4xl font-black text-white mb-4 tracking-tighter uppercase">Transmission Success</h3>
+        <p className="text-slate-400 mb-10 max-w-sm mx-auto leading-relaxed">
+          Your inquiry has been routed to our systems architecture team. Expect a response within one business day.
+        </p>
         <button 
           onClick={() => setStatus('idle')}
-          className="text-brand-primary font-bold uppercase tracking-widest text-[10px] hover:text-brand-hover transition-colors border-b border-brand-primary/30 pb-1"
+          className="text-brand-primary font-bold uppercase tracking-[0.2em] text-[10px] hover:text-brand-hover transition-all"
         >
-          Send another message
+          Send another transmission
         </button>
       </div>
     );
@@ -69,50 +73,52 @@ const ContactForm: React.FC = () => {
 
   return (
     <div className="glass-card p-10 md:p-20 rounded-[3rem] relative overflow-hidden group border-white/5">
-      <div className="absolute top-0 right-0 w-96 h-96 bg-brand-primary/5 blur-[120px] pointer-events-none group-hover:bg-brand-primary/10 transition-all duration-700"></div>
+      {/* Decorative Blur */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-primary/5 blur-[120px] pointer-events-none rounded-full"></div>
       
       <div className="relative z-10">
         <div className="mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-[10px] font-bold uppercase tracking-widest mb-6">
-            Contact Engineering
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-[10px] font-black uppercase tracking-widest mb-8">
+            Network Operations Center
           </div>
-          <h2 className="text-5xl md:text-8xl font-black text-white mb-6 tracking-tighter leading-[0.85]">
-            Scale your <br/><span className="text-brand-primary">infrastructure.</span>
+          <h2 className="text-6xl md:text-9xl font-black text-white mb-6 tracking-tighter leading-[0.8]">
+            Let's build <br/><span className="text-brand-primary">excellence.</span>
           </h2>
-          <p className="text-slate-500 text-lg max-w-lg">Technical consultation for high-availability systems and modern cloud architecture.</p>
+          <p className="text-slate-400 text-lg max-w-md mt-10">High-performance infrastructure begins with a single technical conversation.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <input type="text" className="hidden" value={formData.honeypot} onChange={e => setFormData({...formData, honeypot: e.target.value})} />
+          {/* Honeypot field - hidden from users */}
+          <input type="text" className="hidden" tabIndex={-1} autoComplete="off" value={formData.honeypot} onChange={e => setFormData({...formData, honeypot: e.target.value})} />
           
           <div className="grid md:grid-cols-2 gap-6">
             <div className="relative">
               <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-primary/40" />
-              <input required type="text" placeholder="Full Name" className={inputStyles} value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+              <input required type="text" placeholder="Identity / Full Name" className={inputStyles} value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
             </div>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-primary/40" />
-              <input required type="email" placeholder="Email Address" className={inputStyles} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+              <input required type="email" placeholder="Professional Email" className={inputStyles} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
             </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
             <div className="relative">
               <Building className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-primary/40" />
-              <input type="text" placeholder="Company" className={inputStyles} value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})} />
+              <input type="text" placeholder="Organization" className={inputStyles} value={formData.company} onChange={e => setFormData({...formData, company: e.target.value})} />
             </div>
             <div className="relative">
               <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-primary/40" />
-              <input type="tel" placeholder="Phone (Optional)" className={inputStyles} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
+              <input type="tel" placeholder="Contact Frequency (Phone)" className={inputStyles} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
             </div>
           </div>
 
           <div className="relative">
             <textarea 
               required 
-              placeholder="Tell us about your project or technical challenge..." 
+              placeholder="Technical requirements or project scope..." 
               rows={5} 
-              className="w-full bg-black border border-brand-primary/20 rounded-xl p-6 text-white focus:border-brand-primary outline-none transition-all placeholder:text-slate-600 focus:ring-1 focus:ring-brand-primary/50 resize-none" 
+              className="w-full bg-black/60 border border-brand-primary/20 rounded-xl p-6 text-white focus:border-brand-primary outline-none transition-all placeholder:text-slate-600 focus:ring-1 focus:ring-brand-primary/50 resize-none" 
               value={formData.message} 
               onChange={e => setFormData({...formData, message: e.target.value})}
             ></textarea>
@@ -120,24 +126,24 @@ const ContactForm: React.FC = () => {
 
           <button 
             disabled={status === 'submitting'} 
-            className="w-full bg-brand-primary text-black font-black py-6 rounded-2xl flex items-center justify-center gap-3 hover:bg-brand-hover transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_10px_30px_rgba(16,185,129,0.2)]"
+            className="w-full bg-brand-primary text-black font-black py-7 rounded-2xl flex items-center justify-center gap-3 hover:bg-brand-hover transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_20px_40px_rgba(16,185,129,0.25)] group"
           >
             {status === 'submitting' ? (
               <Loader2 className="animate-spin w-6 h-6" />
             ) : (
               <>
-                <Send size={20} className="mt-0.5" /> 
-                <span className="uppercase tracking-widest text-xs">Initiate Project Consultation</span>
+                <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /> 
+                <span className="uppercase tracking-[0.3em] text-xs">Launch Consultation</span>
               </>
             )}
           </button>
 
           {status === 'error' && (
-            <div className="flex items-center gap-3 text-red-500 justify-center p-5 bg-red-500/5 rounded-2xl border border-red-500/20 animate-fade-in">
-              <AlertCircle size={20} className="shrink-0" />
-              <div className="text-left">
-                <p className="text-xs font-black uppercase tracking-widest mb-1">Transmission Error</p>
-                <p className="text-sm font-medium text-red-400/80 leading-tight">{errorMessage}</p>
+            <div className="flex items-center gap-4 text-red-500 justify-center p-6 bg-red-500/5 rounded-2xl border border-red-500/10 animate-fade-in">
+              <AlertCircle size={24} className="shrink-0" />
+              <div className="text-left leading-tight">
+                <p className="text-[10px] font-black uppercase tracking-widest mb-1 text-red-400">System Fault Detected</p>
+                <p className="text-sm font-medium text-red-300/80">{errorMessage}</p>
               </div>
             </div>
           )}
