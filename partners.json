@@ -1,0 +1,13 @@
+
+[
+  { "name": "Sophos", "logo": "https://cdn.worldvectorlogo.com/logos/sophos.svg", "url": "https://www.sophos.com" },
+  { "name": "Fortinet", "logo": "https://cdn.worldvectorlogo.com/logos/fortinet.svg", "url": "https://www.fortinet.com" },
+  { "name": "AWS", "logo": "https://cdn.worldvectorlogo.com/logos/amazon-web-services-2.svg", "url": "https://aws.amazon.com" },
+  { "name": "Azure", "logo": "https://cdn.worldvectorlogo.com/logos/microsoft-azure-3.svg", "url": "https://azure.microsoft.com" },
+  { "name": "Google Cloud", "logo": "https://cdn.worldvectorlogo.com/logos/google-cloud-1.svg", "url": "https://cloud.google.com" },
+  { "name": "Bitdefender", "logo": "https://cdn.worldvectorlogo.com/logos/bitdefender-1.svg", "url": "https://www.bitdefender.com" },
+  { "name": "Microsoft", "logo": "https://cdn.worldvectorlogo.com/logos/microsoft-5.svg", "url": "https://www.microsoft.com" },
+  { "name": "Cloudflare", "logo": "https://cdn.worldvectorlogo.com/logos/cloudflare.svg", "url": "https://www.cloudflare.com" },
+  { "name": "Datadog", "logo": "https://cdn.worldvectorlogo.com/logos/datadog.svg", "url": "https://www.datadoghq.com" },
+  { "name": "HashiCorp", "logo": "https://cdn.worldvectorlogo.com/logos/hashicorp.svg", "url": "https://www.hashicorp.com" }
+]
