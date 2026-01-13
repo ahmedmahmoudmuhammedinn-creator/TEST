@@ -80,9 +80,11 @@ const App: React.FC = () => {
           <Route path="/" element={
             <main>
               <Hero />
-              {/* Replaced PartnerBar/Grid with the new unified Partners component */}
+              {/* Premium Partners Grid Section */}
               <Partners />
+              
               <section id="services"><Services onAskAI={handleAskAI} /></section>
+              
               <section className="py-40 bg-brand-black/50">
                 <div className="container mx-auto px-6">
                   <div className="grid lg:grid-cols-2 gap-24 items-center">
@@ -103,6 +105,7 @@ const App: React.FC = () => {
                   </div>
                 </div>
               </section>
+
               <section id="contact" className="py-40 container mx-auto px-6 max-w-6xl">
                 <ContactForm />
               </section>
