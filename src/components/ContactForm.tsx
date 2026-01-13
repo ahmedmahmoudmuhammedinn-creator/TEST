@@ -17,7 +17,6 @@ const ContactForm: React.FC = () => {
     e.preventDefault();
     setErrorMessage('');
     
-    // Immediate honeypot exit
     if (formData.honeypot) {
       setStatus('success');
       return;
@@ -32,37 +31,30 @@ const ContactForm: React.FC = () => {
         body: JSON.stringify(formData),
       });
 
-      // DEFENSIVE: Always read as text first to handle 500 HTML pages or plain text errors
-      const rawResponse = await response.text();
+      // Defensive Parsing: Read text first to handle 500/HTML error pages from Vercel/Edge
+      const rawText = await response.text();
       let result;
 
       try {
-        // Attempt to parse text as JSON
-        result = JSON.parse(rawResponse);
-      } catch (parseError) {
-        // If parsing fails, create a synthetic result from the raw text
-        console.warn('Response was not JSON. Falling back to text display.', parseError);
-        result = { 
-          success: false, 
-          message: rawResponse.length > 200 ? `Error ${response.status}: ${response.statusText}` : rawResponse 
-        };
+        result = JSON.parse(rawText);
+      } catch (parseErr) {
+        console.error('Non-JSON response received:', rawText);
+        throw new Error(rawText.length > 100 ? `Server Error (${response.status})` : rawText);
       }
 
-      // Check both HTTP status and our JSON 'success' flag
-      if (!response.ok || result.success === false) {
+      if (!response.ok || result.ok === false) {
         throw new Error(result.message || `Transmission failed with status ${response.status}`);
       }
 
       setStatus('success');
       setFormData({ name: '', email: '', company: '', phone: '', message: '', honeypot: '' });
     } catch (err: any) {
-      console.error('Submission Error Details:', err);
-      
-      // Sanitization: If Vercel returns a full HTML error page, don't dump it into the UI
-      const cleanMessage = err.message.startsWith('<!DOCTYPE') 
-        ? 'Internal Server Error: The server returned an invalid response. Please contact info@linco.network directly.'
+      console.error('Submission Debug Info:', err);
+      // Clean up common Vercel HTML error markers if they leaked through
+      const cleanMessage = err.message.includes('<!DOCTYPE') 
+        ? 'A server-side configuration error occurred. Please try again later or contact us directly at info@linco.network.' 
         : err.message;
-
+        
       setErrorMessage(cleanMessage);
       setStatus('error');
     }
@@ -92,7 +84,6 @@ const ContactForm: React.FC = () => {
 
   return (
     <div className="glass-card p-10 md:p-20 rounded-[3rem] relative overflow-hidden group border-white/5 shadow-2xl">
-      {/* Dynamic Background Glow */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/5 blur-[140px] pointer-events-none rounded-full group-hover:bg-brand-primary/10 transition-colors duration-700"></div>
       
       <div className="relative z-10">
@@ -107,7 +98,6 @@ const ContactForm: React.FC = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Honeypot field - invisible to users */}
           <input 
             type="text" 
             className="hidden" 
