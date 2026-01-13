@@ -19,46 +19,53 @@ const ScrollToTop = () => {
 const Navigation = ({ isScrolled, mobileMenuOpen, setMobileMenuOpen }: any) => (
   <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'py-4' : 'py-8'}`}>
     <div className="container mx-auto px-6 flex justify-center">
-      <div className={`flex items-center justify-between w-full max-w-6xl glass-card rounded-full px-8 py-2.5 transition-all ${
+      <div className={`flex items-center justify-between w-full max-w-6xl glass-card rounded-full px-8 py-2.5 transition-all relative z-50 ${
         isScrolled ? 'border-brand-primary/30 shadow-[0_8px_32px_rgba(0,0,0,0.5)]' : 'border-transparent'
       }`}>
-        <Link to="/" className="flex items-center gap-3 group">
+        <Link to="/" className="flex items-center gap-3 group relative z-10">
           <div className="w-10 h-10 bg-brand-primary rounded-xl flex items-center justify-center text-black font-black group-hover:scale-105 transition-transform">
             <Terminal size={20} />
           </div>
           <span className="text-white font-black text-xl tracking-tighter uppercase">LINCO</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-1 relative z-10">
           {['Home', 'Pricing'].map((item) => (
             <Link 
               key={item} 
               to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-              className="px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest hover:text-brand-primary transition-colors"
+              className="px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest hover:text-brand-primary transition-colors text-slate-300"
             >
               {item}
             </Link>
           ))}
-          <a href="#services" className="px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest hover:text-brand-primary transition-colors">Services</a>
-          {/* New Business Email Link */}
+          <a href="/#services" className="px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest hover:text-brand-primary transition-colors text-slate-300">Services</a>
           <a 
             href="https://mail.linco.network" 
             target="_blank" 
             rel="noreferrer"
-            className="px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest hover:text-brand-primary transition-colors"
+            className="px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-widest hover:text-brand-primary transition-colors text-slate-300"
           >
             Business Email
           </a>
         </div>
 
-        <div className="flex items-center gap-4">
-          <Link to="/pricing" className="bg-brand-primary text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-brand-hover transition-colors shadow-lg shadow-brand-primary/20">
+        <div className="flex items-center gap-4 relative z-10">
+          <a 
+            href="https://mail.linco.network" 
+            target="_blank" 
+            rel="noreferrer"
+            className="bg-brand-primary text-black px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-brand-hover transition-all shadow-lg shadow-brand-primary/20 active:scale-95"
+          >
             Deploy Now
-          </Link>
+          </a>
           <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
+
+        {/* Decorative background for nav - ensures it doesn't block clicks */}
+        <div className="absolute inset-0 rounded-full bg-black/40 backdrop-blur-md -z-10 pointer-events-none" />
       </div>
     </div>
   </nav>
