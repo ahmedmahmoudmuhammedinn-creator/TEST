@@ -8,7 +8,8 @@ import PricingPage from "./pages/Pricing";
 import LincoChat, { LincoChatHandle } from "./components/LincoChat";
 import Footer from "./components/Footer";
 import StatsChart from "./components/StatsChart";
-import { Menu, X, Terminal } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import BrandLogo from "./components/BrandLogo";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -23,10 +24,8 @@ const Navigation = ({ isScrolled, mobileMenuOpen, setMobileMenuOpen }: any) => (
         isScrolled ? 'border-brand-primary/30 shadow-[0_8px_32px_rgba(0,0,0,0.5)]' : 'border-transparent'
       }`}>
         <Link to="/" className="flex items-center gap-3 group relative z-10">
-          <div className="w-10 h-10 bg-brand-primary rounded-xl flex items-center justify-center text-black font-black group-hover:scale-105 transition-transform">
-            <Terminal size={20} />
-          </div>
-          <span className="text-white font-black text-xl tracking-tighter uppercase">LINCO</span>
+          {/* Logo Replacement with SVG Component */}
+          <BrandLogo className="h-8 md:h-10 w-auto text-white transition-transform group-hover:scale-105" />
         </Link>
 
         <div className="hidden md:flex items-center gap-1 relative z-10">

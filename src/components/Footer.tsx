@@ -1,5 +1,6 @@
 import React from 'react';
-import { Instagram, Linkedin, Twitter, Terminal, MapPin, Phone, Mail, Globe, ArrowUpRight } from 'lucide-react';
+import { Instagram, Linkedin, Twitter, MapPin, Phone, Mail, Globe, ArrowUpRight } from 'lucide-react';
+import BrandLogo from './BrandLogo';
 
 const Footer: React.FC = () => {
   return (
@@ -11,10 +12,8 @@ const Footer: React.FC = () => {
           {/* Column 1: Brand & Identity */}
           <div className="space-y-8">
             <a href="#" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 bg-brand-primary rounded-xl flex items-center justify-center text-black font-black shadow-[0_0_20px_rgba(16,185,129,0.3)] group-hover:scale-110 transition-transform">
-                <Terminal size={20} />
-              </div>
-              <span className="text-white font-black text-2xl tracking-tighter">LINCO</span>
+              {/* Logo Replacement */}
+              <BrandLogo className="h-10 w-auto text-white opacity-90 group-hover:opacity-100 transition-opacity" />
             </a>
             <div className="space-y-4">
               <h4 className="text-white font-bold text-lg tracking-tight">linco | <span className="text-brand-primary">Secure. Smart. Scalable.</span></h4>
